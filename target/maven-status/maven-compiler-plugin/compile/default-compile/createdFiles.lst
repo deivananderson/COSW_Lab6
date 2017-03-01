@@ -1,0 +1,17 @@
+edu/eci/cosw/samples/model/Pedido.class
+edu/eci/cosw/examples/productorders/repositories/DispatchRepository.class
+edu/eci/cosw/samples/model/Cliente.class
+edu/eci/cosw/examples/productorders/services/ApplicationServices.class
+edu/eci/cosw/samples/model/Vehiculo.class
+edu/eci/cosw/examples/productorders/repositories/OrdersRepository.class
+edu/eci/cosw/samples/model/Producto.class
+edu/eci/cosw/examples/productorders/DispatchController.class
+edu/eci/cosw/samples/model/DetallePedido.class
+edu/eci/cosw/samples/model/DetallePedidoId.class
+edu/eci/cosw/examples/productorders/services/ServicesException.class
+edu/eci/cosw/examples/productorders/ProductordersApiApplication.class
+edu/eci/cosw/examples/productorders/OrdersController.class
+edu/eci/cosw/examples/productorders/services/ApplicationServicesImpl.class
+edu/eci/cosw/samples/model/Despacho.class
+edu/eci/cosw/examples/productorders/ProductsController.class
+edu/eci/cosw/examples/productorders/repositories/ProductsRepository.class
