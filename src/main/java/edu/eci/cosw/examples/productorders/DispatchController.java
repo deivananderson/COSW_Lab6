@@ -20,20 +20,25 @@ import edu.eci.cosw.samples.model.Despacho;
 
 import java.io.InputStream;
 import java.sql.SQLException;
+import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import edu.eci.cosw.samples.model.Pedido;
+import edu.eci.cosw.samples.model.Vehiculo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.util.StreamUtils;
+import org.springframework.web.bind.annotation.*;
 import edu.eci.cosw.examples.productorders.services.ApplicationServices;
 import edu.eci.cosw.examples.productorders.services.ServicesException;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+
+import javax.sql.rowset.serial.SerialBlob;
 
 /**
  *
@@ -76,5 +81,25 @@ public class DispatchController {
 
     }
 
-    
+    @RequestMapping(value = "/upload", method = RequestMethod.POST)
+    public ResponseEntity uploadFile(MultipartHttpServletRequest request, @RequestParam(name = "idpedido")int idpedido, @RequestParam(name =  "idvehiculo") String idVehiculo){
+        try{
+            Iterator<String> itr = request.getFileNames();
+            while(itr.hasNext()){
+                String uploadFile = itr.next();
+                MultipartFile file = request.getFile(uploadFile);
+
+                Pedido pedido = services.orderById(idpedido);
+                Vehiculo vehiculo = services.vehicleById(idVehiculo);
+                Despacho despacho = new Despacho(pedido, vehiculo);
+                despacho.setQrcode(new SerialBlob(StreamUtils.copyToByteArray(file.getInputStream())));
+
+                services.addDispatch(despacho);
+            }
+        }catch(Exception e){
+            return new ResponseEntity<>("{}", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<>("{}",HttpStatus.OK);
+    }
 }
